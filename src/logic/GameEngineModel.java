@@ -9,6 +9,19 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GameEngineModel {
+    private boolean paused = false;
+    private long pausedTime = 0;
+    private long totalPausedDuration = 0;
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        if (paused) {
+            pausedTime = System.currentTimeMillis();
+        } else {
+            totalPausedDuration += System.currentTimeMillis() - pausedTime;
+        }
+    }
+
 
     private PlayerModel player;
     private PolygonCoreModel polygon;
@@ -20,6 +33,16 @@ public class GameEngineModel {
     private int spawnInterval = 30;
     private int minOpenSectors = 3;
     private int frameCount = 0;
+    private long startTime = System.currentTimeMillis();
+    private double bestTime = 0;
+    public long getStartTime() {
+        return startTime + totalPausedDuration;
+    }
+
+    public double getBestTime() {
+        return bestTime;
+    }
+
 
 
 
@@ -34,6 +57,7 @@ public class GameEngineModel {
     }
 
     public void updateGame() {
+        if (paused) return;
         // progressively increase difficulty
         if (spawnInterval > 20) spawnInterval--;
         if (minOpenSectors > 1 && frameCount % 600 == 0) minOpenSectors--;
@@ -63,6 +87,11 @@ public class GameEngineModel {
         // تولید مانع جدید هر 120 فریم (تقریباً هر نیم‌ثانیه با 60 FPS)
         spawnCounter++;
         frameCount++;
+        //double elapsed = (System.currentTimeMillis() - startTime) / 1000.0;
+        double elapsed = (System.currentTimeMillis() - startTime - totalPausedDuration) / 1000.0;
+        if (elapsed > bestTime) {
+            bestTime = elapsed;
+        }
         if (spawnCounter >= spawnInterval * 4) {
             spawnObstacle();
             spawnCounter = 0;
