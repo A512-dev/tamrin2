@@ -17,6 +17,10 @@ public class GameEngineModel {
     public static int totalSectors = 6;
     public static double sectorAngle = 2 * Math.PI / totalSectors;
     private int spawnCounter = 0;
+    private int spawnInterval = 30;
+    private int minOpenSectors = 3;
+    private int frameCount = 0;
+
 
 
 
@@ -30,6 +34,9 @@ public class GameEngineModel {
     }
 
     public void updateGame() {
+        // progressively increase difficulty
+        if (spawnInterval > 20) spawnInterval--;
+        if (minOpenSectors > 1 && frameCount % 600 == 0) minOpenSectors--;
         if (GameState.rightWard) {
             GameState.globalRotation += 0.005;
         }
@@ -52,8 +59,11 @@ public class GameEngineModel {
         gameSpeed += 0.001;
 
         // تولید مانع جدید هر 30 فریم (تقریباً هر نیم‌ثانیه با 60 FPS)
+        //now every 120 frames
+        // تولید مانع جدید هر 120 فریم (تقریباً هر نیم‌ثانیه با 60 FPS)
         spawnCounter++;
-        if (spawnCounter >= 30) {
+        frameCount++;
+        if (spawnCounter >= spawnInterval * 4) {
             spawnObstacle();
             spawnCounter = 0;
         }
@@ -65,16 +75,34 @@ public class GameEngineModel {
         }
     }
 
+//    public void spawnObstacle() {
+//        int sector = (int)(Math.random() * totalSectors);
+//        ObstacleModel newObstacle = new ObstacleModel(300, gameSpeed/2, sector);
+//        obstacles.add(newObstacle);
+//    }
     public void spawnObstacle() {
-        int sector = (int)(Math.random() * totalSectors);
-        ObstacleModel newObstacle = new ObstacleModel(300, gameSpeed/2, sector);
-        obstacles.add(newObstacle);
+        double distance = 300 + Math.random() * 100;
+        List<Integer> usedSectors = new ArrayList<>();
+        int maxObstacles = totalSectors - 1;
+        int numSectors = (int) (Math.random() * 4);
+
+        while (usedSectors.size() != numSectors) {
+            int sector = (int) (Math.random() * totalSectors);
+            if (!usedSectors.contains(sector)) {
+                usedSectors.add(sector);
+                ObstacleModel newObstacle = new ObstacleModel(distance, gameSpeed / 2, sector);
+                obstacles.add(newObstacle);
+            }
+        }
     }
 
     public boolean checkCollision() {
         int playerSector = player.getCurrentSector();
         for (ObstacleModel ob : obstacles) {
-            if (ob.getSector() == playerSector && ob.getDistance()- ObstacleModel.thickness< PlayerModel.radius  + PlayerModel.size) {
+            if (ob.getSector() == playerSector && ob.getDistance()- ObstacleModel.thickness< PlayerModel.distanceFromCenter + PlayerModel.size) {
+                System.out.println("Sectors: "+playerSector+"    "+ ob.getSector());
+                System.out.println("angles: "+player.getAngle()+"    "+ ob.getAngle());
+                System.out.println("Distance: "+  (PlayerModel.distanceFromCenter + PlayerModel.size) +"     "+ (ob.getDistance()- ObstacleModel.thickness));
                 return true; // collision detected
             }
         }

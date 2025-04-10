@@ -1,11 +1,12 @@
 package model;
 
-import graphics.GamePanel;
 import logic.GameEngineModel;
 import logic.GameState;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+
+import static logic.GameEngineModel.totalSectors;
 
 public class ObstacleModel {
     private double distanceFromCenter;
@@ -45,7 +46,7 @@ public class ObstacleModel {
     }
 
     public boolean isOffScreen() {
-        return distanceFromCenter <= PlayerModel.radius+20;
+        return distanceFromCenter <= PlayerModel.distanceFromCenter +20;
     }
 
     public double getDistance() {
@@ -54,5 +55,13 @@ public class ObstacleModel {
 
     public int getSector() {
         return sector;
+    }
+    public int getCurrentSector() {
+        double rawAngle = getAngle() % 360;
+        if (rawAngle < 0) rawAngle += 360;
+        double sectorAngle = 360.0 / GameEngineModel.totalSectors;
+        if (angle>-0.05)
+            return 0;
+        return (int)(rawAngle / sectorAngle)%totalSectors;
     }
 }

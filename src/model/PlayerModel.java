@@ -29,7 +29,7 @@ public class PlayerModel {
 
 
     private Point2D center;
-    public static final int radius = GamePanel.radius + 20;
+    public static final int distanceFromCenter = GamePanel.radius + 20;
     public static final int size = 10;
     private int currentSector;
     private int targetSector;
@@ -68,14 +68,14 @@ public class PlayerModel {
         targetSector = getCurrentSector() +1;
         targetSector %= totalSectors;
         rightTurnClicked = true;
-        System.out.println("nnvnvnvvnv" + targetSector+"________________"+getCurrentSector());
+        //System.out.println("nnvnvnvvnv" + targetSector+"________________"+getCurrentSector());
     }
     public int getCurrentSector() {
         double rawAngle = getAngle() % 360;
         if (rawAngle < 0) rawAngle += 360;
         double sectorAngle = 360.0 / GameEngineModel.totalSectors;
-        if (angle>-0.05)
-            return 0;
+        if (angle==-0.0)
+            return -1;
         return (int)(rawAngle / sectorAngle)%totalSectors;
     }
 
@@ -87,35 +87,35 @@ public class PlayerModel {
         targetSector = currentSector -1;
         targetSector %= totalSectors;
         leftTurnClicked = true;
-        System.out.println("nnvnvnvvnv" + targetSector+"________________"+getCurrentSector());
+        //System.out.println("nnvnvnvvnv" + targetSector+"________________"+getCurrentSector());
     }
 
     public void rotate() {
-        System.out.println("PPPPPPPP:"+ angle);
-        System.out.println("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"+ getCurrentSector());
+//        System.out.println("PPPPPPPP:"+ angle);
+//        System.out.println("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"+ getCurrentSector());
         angle += rotationSpeed;
         if (rightTurnClicked || leftTurnClicked) {
             int sectorAngle = (int) GameEngineModel.sectorAngle;
             if ((targetSector - getCurrentSector())%totalSectors == 1 || (targetSector - getCurrentSector())%totalSectors == -5) {
                 if (rightTurn==0) {
                     targetAngle = angle + 60;
-                    System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+                    //System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
                     rightTurn++;
                 }
             }
             else if ( (targetSector - getCurrentSector())%totalSectors == 5 || (targetSector - getCurrentSector())%totalSectors == -1) {
                 if (leftTurn==0) {
                     targetAngle = angle - 60;
-                    System.out.println("pppppppppppppppppppppppppp" + targetAngle);
+                    //System.out.println("pppppppppppppppppppppppppp" + targetAngle);
                     leftTurn++;
                 }
             }
             targetAngle %= 360;
 
             double diff = targetAngle - angle;
-            System.out.println("targetAngel:"+targetAngle);
-            System.out.println("Angle:"+angle);
-            System.out.println("dif:"+ diff);
+//            System.out.println("targetAngel:"+targetAngle);
+//            System.out.println("Angle:"+angle);
+//            System.out.println("dif:"+ diff);
 
             // Normalize difference to [-180, 180]
             if (diff > 180) diff -= 360;
@@ -133,9 +133,9 @@ public class PlayerModel {
             // Snap to target if close enough
              if (Math.abs(diff) < 5) {
                 angle = targetAngle;
-                System.out.println("angle: "+angle);
+                //System.out.println("angle: "+angle);
                 targetSector = getCurrentSector();
-                System.out.println(targetSector);
+                //System.out.println(targetSector);
                 leftTurn = 0;
                 rightTurn = 0;
                 leftTurnClicked = false;

@@ -49,7 +49,9 @@ public class PolygonCoreView {
             };
 
             Polygon sectorShape = new Polygon(xPoints, yPoints, 4);
-            g.setColor(Color.getHSBColor((float) i / sides, 0.6f, 0.85f));
+            float hue = ((System.currentTimeMillis() % 5000L) / 5000f + (float) i / sides) % 1.0f;
+            g.setColor(Color.getHSBColor(hue, 0.6f, 0.85f));
+            //g.setColor(Color.getHSBColor((float) i / sides, 0.6f, 0.85f));
             g.fillPolygon(sectorShape);
         }
 
@@ -61,8 +63,12 @@ public class PolygonCoreView {
             int y = (int) (center.y + Math.sin(angle) * radius);
             hex.addPoint(x, y);
         }
-        g.setColor(Color.DARK_GRAY);
+
+        //g.setColor(Color.BLUE);
+        float hue = ((System.currentTimeMillis() % 5000L) / 5000f) % 1.0f;
+        g.setColor(Color.getHSBColor(hue, 0.6f, 0.3f));
         g.fillPolygon(hex);
+
         g.setColor(Color.BLACK);
         g.drawPolygon(hex);
     }
