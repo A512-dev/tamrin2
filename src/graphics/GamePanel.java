@@ -2,7 +2,7 @@ package graphics;
 
 
 import admin.GameLoopHandler;
-import data.Database;
+
 import graphics.view.ObstacleView;
 import graphics.view.PlayerView;
 import graphics.view.PolygonCoreView;
@@ -149,8 +149,8 @@ public class GamePanel extends JPanel implements KeyListener {
         if (GameLoopHandler.isGameOver() && !gameOver) {
             handleGameOver();
         }
-        System.out.println("collision:"+GameLoopHandler.isGameOver());
-        System.out.println("gameover:"+gameOver);
+//        System.out.println("collision:"+engine.checkCollision());
+//        System.out.println("gameover:"+gameOver);
     }
 
     @Override
