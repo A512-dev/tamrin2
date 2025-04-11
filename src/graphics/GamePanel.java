@@ -3,6 +3,7 @@ package graphics;
 
 import admin.GameLoopHandler;
 
+import admin.MusicPlayer;
 import graphics.view.ObstacleView;
 import graphics.view.PlayerView;
 import graphics.view.PolygonCoreView;
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements KeyListener {
             });
 
             exitButton.addActionListener(e -> {
+                MusicPlayer.stop();
                 SwingUtilities.getWindowAncestor(this).dispose(); // Close game window
                 new MainFrame().setVisible(true); // Return to menu (assumes MainFrame exists)
             });
@@ -76,9 +78,10 @@ public class GamePanel extends JPanel implements KeyListener {
         gameOverExitButton.setBackground(Color.PINK);
         gameOverExitButton.setBounds(getWidth() / 2 - 80, getHeight() / 2 + 40, 160, 30);
         gameOverExitButton.addActionListener(e -> {
-            SwingUtilities.getWindowAncestor(this).dispose(); // بستن پنجره
+            SwingUtilities.getWindowAncestor(this).dispose();
             gameOver = false;
-            new MainFrame().setVisible(true); // بازگشت به منو
+            MusicPlayer.stop();
+            new MainFrame().setVisible(true);
         });
 
         setLayout(null);

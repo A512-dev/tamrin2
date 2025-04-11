@@ -1,6 +1,6 @@
 package admin;
 
-import data.Database;
+
 import logic.GameEngineModel;
 import logic.GameState;
 
@@ -41,7 +41,7 @@ public class GameLoopHandler {
                 }
                 gameOver = true;
                 System.out.println("Game Over");
-                stop(); // اگر برخورد شد، بازی متوقف شود
+                stop();
             }
         });
 

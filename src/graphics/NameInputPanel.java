@@ -16,18 +16,18 @@ public class NameInputPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel label = new JLabel("نام خود را وارد کنید:");
+        JLabel label = new JLabel("enter a name");
         label.setForeground(Color.WHITE);
         nameField = new JTextField(15);
 
-        JButton startButton = new JButton("شروع بازی");
+        JButton startButton = new JButton("START");
         startButton.addActionListener(e -> {
             String name = nameField.getText().trim();
             if (!name.isEmpty()) {
-                logic.GameState.currentPlayerName = name; // ذخیره‌ی نام
+                logic.GameState.currentPlayerName = name;
                 frame.startGame();
             } else {
-                JOptionPane.showMessageDialog(this, "لطفاً نامی وارد کنید.");
+                JOptionPane.showMessageDialog(this, "please enter a name");
             }
         });
 
