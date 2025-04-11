@@ -11,6 +11,11 @@ import java.util.List;
 public class GameEngineModel {
     private boolean paused = false;
     private long pausedTime = 0;
+
+    public long getTotalPausedDuration() {
+        return totalPausedDuration;
+    }
+
     private long totalPausedDuration = 0;
 
     public void setPaused(boolean paused) {
@@ -40,7 +45,7 @@ public class GameEngineModel {
     }
 
     public double getBestTime() {
-        return bestTime;
+        return Math.max(bestTime, Double.parseDouble(GameState.getBestRecord()));
     }
 
 

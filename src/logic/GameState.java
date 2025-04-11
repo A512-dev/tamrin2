@@ -1,5 +1,9 @@
 package logic;
 
+import data.HistoryManager;
+
+import java.util.Objects;
+
 public class GameState {
     public static String currentPlayerName = "Player";
     static double globalRotation = 0;
@@ -16,6 +20,6 @@ public class GameState {
     }
 
     public static String getBestRecord() {
-        return Double.toString(bestRecord);
+        return Double.toString(Objects.requireNonNull(HistoryManager.getBestRecordFromFile()).getScore());
     }
 }

@@ -1,6 +1,7 @@
 package graphics;
 
 
+import admin.GameLoopHandler;
 import data.Database;
 import graphics.view.ObstacleView;
 import graphics.view.PlayerView;
@@ -64,6 +65,26 @@ public class GamePanel extends JPanel implements KeyListener {
     public static final int height = 600;
     public static final int radius = 100;
 
+    private JButton gameOverExitButton;
+    private boolean gameOver = false;
+    private void handleGameOver() {
+        gameOver = true;
+
+
+
+        gameOverExitButton = new JButton("exit to menu");
+        gameOverExitButton.setBackground(Color.PINK);
+        gameOverExitButton.setBounds(getWidth() / 2 - 80, getHeight() / 2 + 40, 160, 30);
+        gameOverExitButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(this).dispose(); // بستن پنجره
+            new MainFrame().setVisible(true); // بازگشت به منو
+        });
+
+        setLayout(null);
+        add(gameOverExitButton);
+        repaint();
+    }
+
     public static Point center = new Point(width / 2, height / 2);
 
     public GamePanel(GameEngineModel engine) {
@@ -110,14 +131,25 @@ public class GamePanel extends JPanel implements KeyListener {
             elapsed = timePaused;
         }
         else {
-            elapsed = (System.currentTimeMillis() - engine.getStartTime()) / 1000.0;
+            elapsed = (System.currentTimeMillis() - engine.getStartTime()) / 1000.00;
         }
         double best = engine.getBestTime();
 
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 16));
-        g2.drawString("Time: " + String.format("%.1f", elapsed) + "s", 20, 30);
-        g2.drawString("Best: " + String.format("%.1f", best) + "s", 20, 50);
+        g2.drawString("Time: " + String.format("%.01f", elapsed) + "s", 20, 30);
+        g2.drawString("Best: " + String.format("%.01f", best) + "s", 20, 50);
+
+        if (gameOver) {
+            g2.setColor(Color.RED);
+            g2.setFont(new Font("Arial", Font.BOLD, 32));
+            g2.drawString("Game Over", getWidth() / 2 - 90, getHeight() / 2 - 30);
+        }
+        if (GameLoopHandler.isGameOver() && !gameOver) {
+            handleGameOver();
+        }
+        System.out.println("collision:"+engine.checkCollision());
+        System.out.println("gameover:"+gameOver);
     }
 
     @Override
