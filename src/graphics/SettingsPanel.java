@@ -1,5 +1,7 @@
 package graphics;
 
+import admin.MusicPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -25,7 +27,15 @@ public class SettingsPanel extends JPanel {
         JButton backButton = new JButton("Return");
         backButton.addActionListener(e -> frame.showMenu());
 
-        musicCheckbox.addActionListener(e -> logic.GameState.isMusicEnabled = musicCheckbox.isSelected());
+        musicCheckbox.addActionListener(e -> {
+            logic.GameState.isMusicEnabled = musicCheckbox.isSelected();
+            if (musicCheckbox.isSelected()) {
+                MusicPlayer.playLoop("file_example_WAV_1MG.wav");
+            }
+            else {
+                MusicPlayer.stop();
+            }
+        });
         saveHistoryCheckbox.addActionListener(e -> logic.GameState.isHistoryEnabled = saveHistoryCheckbox.isSelected());
 
         add(musicCheckbox, gbc);

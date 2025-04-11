@@ -2,7 +2,9 @@ package graphics;
 
 import admin.GameLoopHandler;
 import admin.MainGameAdmin;
+import admin.MusicPlayer;
 import logic.GameEngineModel;
+import logic.GameState;
 
 import javax.swing.*;
 
@@ -11,6 +13,9 @@ public class MainFrame extends JFrame {
     private GamePanel gamePanel;
 
     public MainFrame() {
+        if (GameState.isMusicEnabled)
+            MusicPlayer.playLoop("file_example_WAV_1MG.wav");
+        GameLoopHandler.setGameOver(false);
         setTitle("Polygon Survival Game");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,6 +31,7 @@ public class MainFrame extends JFrame {
         setContentPane(menuPanel);
         revalidate();
         repaint();
+        System.out.println();
     }
 
     public void startGame() {

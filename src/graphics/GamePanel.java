@@ -77,6 +77,7 @@ public class GamePanel extends JPanel implements KeyListener {
         gameOverExitButton.setBounds(getWidth() / 2 - 80, getHeight() / 2 + 40, 160, 30);
         gameOverExitButton.addActionListener(e -> {
             SwingUtilities.getWindowAncestor(this).dispose(); // بستن پنجره
+            gameOver = false;
             new MainFrame().setVisible(true); // بازگشت به منو
         });
 
@@ -148,7 +149,7 @@ public class GamePanel extends JPanel implements KeyListener {
         if (GameLoopHandler.isGameOver() && !gameOver) {
             handleGameOver();
         }
-        System.out.println("collision:"+engine.checkCollision());
+        System.out.println("collision:"+GameLoopHandler.isGameOver());
         System.out.println("gameover:"+gameOver);
     }
 

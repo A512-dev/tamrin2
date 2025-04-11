@@ -19,12 +19,16 @@ public class GameLoopHandler {
         return gameOver;
     }
 
+    public static void setGameOver(boolean gameOver) {
+        GameLoopHandler.gameOver = gameOver;
+    }
+
     private static boolean gameOver = false;
 
     public GameLoopHandler(GameEngineModel engine, JPanel gamePanel) {
         this.engine = engine;
         this.gamePanel = gamePanel;
-        MusicPlayer.playLoop("musicFile.wav");
+
 
         // Logic update timer (60 FPS → every ~16ms)
         logicTimer = new Timer(16, e -> {
@@ -52,6 +56,6 @@ public class GameLoopHandler {
 
     public void stop() {
         logicTimer.stop();
-        renderTimer.stop();
+        //renderTimer.stop();
     }
 }

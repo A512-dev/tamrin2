@@ -4,21 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import graphics.GamePanel;
 import graphics.MainFrame;
 import logic.GameEngineModel;
+import logic.GameState;
 
 import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = null;
-        try {
-            json = mapper.writeValueAsString(new String[]{"Hello", "Jackson"});
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(json);
+
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
+
 //        SwingUtilities.invokeLater(() -> {
 //            MainGameAdmin mainGameAdmin = new MainGameAdmin();
 //            mainGameAdmin.start();
